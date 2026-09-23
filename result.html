@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="{{ language }}">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ result.top3[0][0] }} — Mati Mitra</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+  * { margin:0; padding:0; box-sizing:border-box; }
+  :root{
+    --soil:#2B2118; --gold:#D4972B; --gold-light:#F0C264;
+    --leaf:#4A7C59; --leaf-dark:#33573F; --paper:#F6F0E4; --paper-2:#EFE6D2;
+    --rust:#A8442B; --ink:#241B12;
+  }
+  body{ background:var(--soil); color:var(--paper); font-family:'Inter',sans-serif; }
+  h1,h2{ font-family:'Baloo 2',sans-serif; }
+
+  nav{ display:flex; align-items:center; justify-content:space-between; padding:16px 6vw; background:rgba(0,0,0,0.15); }
+  .brand{ display:flex; align-items:center; gap:10px; text-decoration:none; color:inherit; }
+  .brand-mark{ width:36px; height:36px; border-radius:10px; background:linear-gradient(145deg, var(--gold-light), var(--gold)); display:flex; align-items:center; justify-content:center; font-family:'Baloo 2'; font-weight:800; color:var(--soil); font-size:16px; }
+  .brand-text b{ font-family:'Baloo 2'; font-size:16px; color:var(--paper); }
+  .back-link{ font-size:13.5px; font-weight:700; color:var(--gold-light); text-decoration:none; }
+
+  .stage{ max-width:640px; margin:0 auto; padding:36px 6vw 60px; }
+
+  .reveal{ text-align:center; margin-bottom:32px; animation:pop-in 0.5s ease; }
+  @keyframes pop-in{ from{ opacity:0; transform:scale(0.95) translateY(10px);} to{ opacity:1; transform:scale(1) translateY(0);} }
+  .reveal-eyebrow{ font-size:12px; letter-spacing:2px; text-transform:uppercase; color:var(--gold-light); font-weight:700; margin-bottom:10px; }
+  .reveal-crop{ font-family:'Baloo 2'; font-size:clamp(32px,6vw,50px); text-transform:capitalize; color:white; }
+
+  .donut-section{ display:flex; flex-direction:column; align-items:center; gap:18px; margin:28px 0; }
+  .donut-wrap{ width:170px; height:170px; position:relative; }
+  .donut-bg{ width:100%; height:100%; border-radius:50%; display:flex; align-items:center; justify-content:center; }
+  .donut-inner{ width:126px; height:126px; border-radius:50%; background:var(--soil); display:flex; flex-direction:column; align-items:center; justify-content:center; }
+  .donut-inner b{ font-family:'Baloo 2'; font-size:26px; color:var(--gold-light); }
+  .donut-inner span{ font-size:10px; color:rgba(246,240,228,0.55); margin-top:2px; text-align:center; padding:0 10px; }
+
+  .legend{ display:flex; flex-direction:column; gap:8px; width:100%; max-width:340px; }
+  .legend-row{ display:flex; align-items:center; gap:10px; font-size:13.5px; }
+  .legend-dot{ width:11px; height:11px; border-radius:50%; flex-shrink:0; }
+  .legend-row .lname{ flex:1; text-transform:capitalize; }
+  .legend-row .lpct{ font-weight:700; color:var(--gold-light); }
+
+  .conf-label{ display:inline-block; background:rgba(212,151,43,0.2); color:var(--gold-light); padding:8px 18px; border-radius:999px; font-size:13px; font-weight:700; margin-top:4px; }
+  .rel-note{ font-size:11.5px; color:rgba(246,240,228,0.4); text-align:center; max-width:320px; line-height:1.6; margin-top:2px; }
+
+  .other-box{ background:rgba(246,240,228,0.04); border:1px solid rgba(212,151,43,0.25); border-radius:18px; padding:20px 22px; margin-bottom:22px; }
+  .other-box h3{ font-size:12.5px; text-transform:uppercase; letter-spacing:0.6px; color:var(--gold-light); margin-bottom:12px; }
+  .other-row{ display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid rgba(246,240,228,0.07); font-size:14px; }
+  .other-row:last-of-type{ border-bottom:none; }
+  .other-note{ margin-top:10px; font-size:12px; color:rgba(246,240,228,0.5); line-height:1.6; }
+
+  .sowing-box{ background:rgba(74,124,89,0.18); border:1px solid rgba(74,124,89,0.35); border-radius:16px; padding:14px 20px; margin-bottom:22px; font-weight:600; font-size:14px; text-align:center; }
+
+  .chip-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-bottom:22px; }
+
+  .forecast-box{ margin-bottom:22px; }
+  .forecast-title{ font-size:11.5px; text-transform:uppercase; letter-spacing:0.5px; color:var(--gold-light); margin-bottom:10px; font-weight:700; }
+  .forecast-row{ display:flex; gap:10px; overflow-x:auto; }
+  .forecast-day{ background:rgba(246,240,228,0.05); border:1px solid rgba(246,240,228,0.1); border-radius:14px; padding:12px 10px; text-align:center; flex:1; min-width:70px; }
+  .forecast-day .fwd{ font-size:11px; color:rgba(246,240,228,0.6); }
+  .forecast-day .femoji{ font-size:22px; margin:4px 0; }
+  .forecast-day .ftemp{ font-size:12.5px; font-weight:700; }
+  .forecast-day .frain{ font-size:10px; color:#7EC8E3; margin-top:2px; }
+  .chip{ background:rgba(246,240,228,0.05); border:1px solid rgba(246,240,228,0.1); border-radius:14px; padding:14px 16px; }
+  .chip b{ display:block; font-size:10.5px; text-transform:uppercase; letter-spacing:0.5px; color:var(--gold-light); margin-bottom:5px; }
+  .chip span{ font-size:13.5px; }
+
+  .rotation-box{ background:rgba(212,151,43,0.07); border-left:3px solid var(--gold); border-radius:0 12px 12px 0; padding:14px 18px; margin-bottom:22px; font-size:13.5px; line-height:1.6; color:rgba(246,240,228,0.85); }
+  .rotation-box b{ color:var(--gold-light); display:block; margin-bottom:4px; font-size:12px; text-transform:uppercase; letter-spacing:0.5px; }
+
+  .audio-box{ background:rgba(246,240,228,0.04); border:1px solid rgba(246,240,228,0.1); border-radius:16px; padding:18px 20px; margin-bottom:28px; }
+  .audio-box b{ color:var(--gold-light); font-size:11px; text-transform:uppercase; letter-spacing:0.5px; display:block; margin-bottom:10px; }
+  audio{ width:100%; }
+  details{ margin-top:12px; }
+  summary{ cursor:pointer; font-size:12.5px; color:var(--gold-light); font-weight:600; list-style:none; }
+  summary::-webkit-details-marker{ display:none; }
+  summary::before{ content:'▸ '; }
+  details[open] summary::before{ content:'▾ '; }
+  .transcript{ margin-top:10px; font-size:13px; line-height:1.7; color:rgba(246,240,228,0.75); }
+
+  .actions{ display:flex; gap:12px; flex-wrap:wrap; justify-content:center; margin-bottom:20px; }
+  .btn-again{ background:linear-gradient(135deg, var(--leaf), var(--leaf-dark)); color:white; border:none; padding:12px 22px; border-radius:999px; font-weight:700; font-size:13.5px; cursor:pointer; text-decoration:none; display:inline-flex; align-items:center; gap:6px; font-family:inherit; }
+  .btn-home{ background:transparent; border:1.5px solid rgba(246,240,228,0.3); color:var(--paper); padding:12px 22px; border-radius:999px; font-weight:700; font-size:13.5px; cursor:pointer; text-decoration:none; }
+
+  .disclaimer{ text-align:center; font-size:11.5px; color:rgba(246,240,228,0.4); line-height:1.7; }
+
+  @media print{
+    nav, .actions{ display:none !important; }
+    body{ background:white !important; color:black !important; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="brand">
+    <div class="brand-mark">म</div>
+    <div class="brand-text"><b>Mati Mitra</b></div>
+  </a>
+  <a href="/predict" class="back-link">{% if language == 'hi' %}← फॉर्म पर वापस{% elif language == 'en' %}← Back to Form{% else %}← फॉर्मवर परत{% endif %}</a>
+</nav>
+
+<div class="stage">
+  {% if result.weather_error %}
+  <div style="background:rgba(212,151,43,0.12); border:1.5px solid var(--gold); color:var(--gold-light); border-radius:14px; padding:12px 16px; margin-bottom:22px; font-size:13px; font-weight:600;">
+    {{ result.weather_error }}
+  </div>
+  {% endif %}
+
+  {% if result.plausibility_warning %}
+  <div style="background:rgba(168,68,43,0.12); border:1.5px solid var(--rust); color:#F0A98C; border-radius:14px; padding:12px 16px; margin-bottom:22px; font-size:13px; font-weight:600;">
+    {{ result.plausibility_warning }}
+  </div>
+  {% endif %}
+
+  <div class="reveal">
+    <div class="reveal-eyebrow">{{ ui.traditional_recommendation }}</div>
+    <div class="reveal-crop"><a href="/crop/{{ result.crop_key }}?lang={{ language }}" style="color:inherit; text-decoration:none; border-bottom:2px dotted var(--gold-light);">{{ result.crop_emoji }} {{ result.top3[0][0] }}</a></div>
+  </div>
+
+  <div class="donut-section">
+    <div class="donut-wrap">
+      <div class="donut-bg" style="background:{{ result.donut_gradient }};">
+        <div class="donut-inner">
+          <b>{{ result.top3_with_colors[0][2] }}%</b>
+          <span>{{ ui.share_note }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="legend">
+      {% for name, conf, relpct, color in result.top3_with_colors %}
+      <div class="legend-row">
+        <span class="legend-dot" style="background:{{ color }};"></span>
+        <span class="lname">{{ name }}</span>
+        <span class="lpct">{{ relpct }}%</span>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="conf-label">{{ result.confidence_label }}</div>
+    <p class="rel-note">{{ ui.rel_note }}</p>
+  </div>
+
+  {% if result.other %}
+  <div class="other-box">
+    <h3>{{ ui.other_title }}</h3>
+    {% for crop, conf in result.other %}
+    <div class="other-row"><span>🔸 {{ crop }}</span><span>{{ conf }}%</span></div>
+    {% endfor %}
+    <p class="other-note">{{ ui.other_note }}</p>
+  </div>
+  {% endif %}
+
+  <div class="sowing-box">{{ result.sowing_timing }}</div>
+
+  {% if result.forecast %}
+  <div class="forecast-box">
+    <div class="forecast-title">{{ ui.forecast_title.replace('{n}', result.forecast|length|string) }}</div>
+    <div class="forecast-row">
+      {% for day in result.forecast %}
+      <div class="forecast-day">
+        <div class="fwd">{{ ui.weekdays[day.weekday_idx] }}<br>{{ day.date }}</div>
+        <div class="femoji">{{ day.emoji }}</div>
+        <div class="ftemp">{{ day.max_temp }}°/{{ day.min_temp }}°</div>
+        <div class="frain">💧{{ day.rain_chance }}%</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  <div class="chip-grid">
+    <div class="chip"><b>{{ ui.weather_title }}</b><span>{{ result.temp }}°C, {{ result.humidity }}%</span></div>
+    <div class="chip"><b>{{ ui.water_title }}</b><span>{{ result.water }}</span></div>
+    <div class="chip"><b>{{ ui.season_title }}</b><span>{{ result.season }}</span></div>
+    <div class="chip"><b>{{ ui.fert_title }}</b><span>{{ result.fertilizer[0] }}, {{ result.fertilizer[1] }}, {{ result.fertilizer[2] }}</span></div>
+  </div>
+
+  <div class="rotation-box">
+    <b>{{ ui.rotation_title }}</b>
+    {{ result.rotation }}
+  </div>
+
+  <div class="audio-box">
+    <b>{{ ui.audio_title }}</b>
+    <audio controls src="/static/audio_output.mp3"></audio>
+    <details>
+      <summary>{{ ui.transcript_toggle }}</summary>
+      <div class="transcript">{{ result.translated_text }}</div>
+    </details>
+  </div>
+
+  <div class="actions">
+    <button onclick="window.print()" class="btn-again">{{ ui.btn_pdf }}</button>
+    <button onclick="shareOnWhatsApp()" class="btn-again">{{ ui.btn_whatsapp }}</button>
+    <a href="/predict" class="btn-again">{{ ui.btn_again }}</a>
+    <a href="/" class="btn-home">{{ ui.btn_home }}</a>
+  </div>
+
+  <p class="disclaimer">
+    {{ ui.disclaimer }}<br>
+    <a href="tel:18001801551" style="color:var(--gold-light); font-weight:700; text-decoration:none;">{{ ui.helpline }}</a>
+  </p>
+</div>
+
+<script>
+  function shareOnWhatsApp(){
+    const cropName = {{ result.top3[0][0] | tojson }};
+    const conf = {{ result.top3[0][1] | tojson }};
+    const confLabel = {{ result.confidence_label | tojson }};
+    const temp = {{ result.temp | tojson }};
+    const humidity = {{ result.humidity | tojson }};
+    const water = {{ result.water | tojson }};
+    const season = {{ result.season | tojson }};
+    const fert = {{ (result.fertilizer[0] ~ ', ' ~ result.fertilizer[1] ~ ', ' ~ result.fertilizer[2]) | tojson }};
+    const rotation = {{ result.rotation | tojson }};
+
+    const message =
+      {{ ('🌾 *' ~ ui.wa_title ~ '*\n\n') | tojson }} +
+      {{ ('🌱 ' ~ ui.wa_crop ~ ': *') | tojson }} + cropName + "* (" + conf + "%)\n" +
+      "📌 " + confLabel + "\n\n" +
+      {{ (ui.wa_weather ~ ': ') | tojson }} + temp + "°C, " + humidity + "%\n" +
+      {{ (ui.wa_water ~ ': ') | tojson }} + water + "\n" +
+      {{ (ui.wa_season ~ ': ') | tojson }} + season + "\n" +
+      {{ (ui.wa_fert ~ ': ') | tojson }} + fert + "\n" +
+      {{ (ui.wa_rotation ~ ': ') | tojson }} + rotation + "\n\n" +
+      {{ ui.wa_footer | tojson }};
+
+    const url = "https://wa.me/?text=" + encodeURIComponent(message);
+    window.open(url, '_blank');
+  }
+</script>
+
+</body>
+</html>

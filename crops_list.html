@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="mr" id="htmlRoot">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>सगळ्या पिकांची माहिती — Mati Mitra</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+  * { margin:0; padding:0; box-sizing:border-box; }
+  :root{
+    --soil:#2B2118; --gold:#D4972B; --gold-light:#F0C264;
+    --leaf:#4A7C59; --leaf-dark:#33573F; --paper:#F6F0E4; --paper-2:#EFE6D2;
+    --rust:#A8442B; --ink:#241B12;
+  }
+  body{ background:var(--paper); color:var(--ink); font-family:'Inter',sans-serif; }
+  h1{ font-family:'Baloo 2',sans-serif; }
+
+  nav{ position:sticky; top:0; z-index:50; display:flex; align-items:center; justify-content:space-between; padding:14px 6vw; background:rgba(246,240,228,0.92); backdrop-filter:blur(10px); border-bottom:1px solid rgba(43,33,24,0.08); }
+  .brand{ display:flex; align-items:center; gap:10px; text-decoration:none; color:inherit; }
+  .brand-mark{ width:38px; height:38px; border-radius:10px; background:linear-gradient(145deg, var(--leaf), var(--leaf-dark)); display:flex; align-items:center; justify-content:center; font-family:'Baloo 2'; font-weight:800; color:var(--gold-light); font-size:18px; }
+  .brand-text b{ font-family:'Baloo 2'; font-size:17px; }
+  .back-link{ font-size:13.5px; font-weight:700; color:#5c4c3a; text-decoration:none; }
+  .lang-switch{ display:flex; gap:2px; background:var(--paper-2); border-radius:999px; padding:3px; }
+  .lang-switch button{ border:none; background:transparent; padding:6px 11px; border-radius:999px; font-size:12px; font-weight:700; cursor:pointer; color:#7a6b57; font-family:'Inter'; }
+  .lang-switch button.active{ background:var(--soil); color:var(--gold-light); }
+
+  .banner{ padding:44px 6vw 30px; text-align:center; background: radial-gradient(ellipse 700px 300px at 50% 0%, rgba(212,151,43,0.18), transparent), linear-gradient(180deg, var(--paper) 0%, var(--paper-2) 100%); }
+  .banner h1{ font-size:clamp(26px,4vw,36px); color:var(--soil); margin-bottom:8px; }
+  .banner p{ color:#5c4c3a; font-size:14.5px; }
+
+  .grid{ max-width:900px; margin:0 auto; padding:30px 6vw 70px; display:grid; grid-template-columns:repeat(auto-fill, minmax(140px,1fr)); gap:16px; }
+  .crop-card{
+    background:white; border-radius:18px; padding:22px 14px; text-align:center; text-decoration:none; color:var(--ink);
+    border:1px solid rgba(43,33,24,0.08); transition:transform .2s, box-shadow .2s;
+  }
+  .crop-card:hover{ transform:translateY(-4px); box-shadow:0 16px 30px rgba(43,33,24,0.1); border-color:var(--gold); }
+  .crop-card .emoji{ font-size:34px; display:block; margin-bottom:8px; }
+  .crop-card .name{ font-size:14px; font-weight:700; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="brand">
+    <div class="brand-mark">म</div>
+    <div class="brand-text"><b>Mati Mitra</b></div>
+  </a>
+  <div style="display:flex; align-items:center; gap:14px;">
+    <div class="lang-switch">
+      <button data-lang-btn="mr" onclick="setLanguage('mr')">मराठी</button>
+      <button data-lang-btn="hi" onclick="setLanguage('hi')">हिंदी</button>
+      <button data-lang-btn="en" onclick="setLanguage('en')">English</button>
+    </div>
+    <a href="/" class="back-link" data-i18n="back-link">← मुख्यपृष्ठावर परत</a>
+  </div>
+</nav>
+
+<div class="banner">
+  <h1 data-i18n="page-h1">🌾 सगळ्या पिकांची माहिती</h1>
+  <p data-i18n="page-p">जमीन, हवामान, लागवड, काळजी आणि समस्या-उपाय — कुठलंही पीक निवडून बघा</p>
+</div>
+
+<div class="grid">
+  {% for item in items %}
+  <a href="/crop/{{ item.key }}" class="crop-card">
+    <span class="emoji">{{ item.emoji }}</span>
+    <span class="name" data-i18n="crop-{{ item.key }}">{{ item.name }}</span>
+  </a>
+  {% endfor %}
+</div>
+
+<script>
+  const translations = {
+    mr: {
+      'back-link':'← मुख्यपृष्ठावर परत', 'page-h1':'🌾 सगळ्या पिकांची माहिती',
+      'page-p':'जमीन, हवामान, लागवड, काळजी आणि समस्या-उपाय — कुठलंही पीक निवडून बघा',
+      'crop-rice':'भात', 'crop-maize':'मका', 'crop-chickpea':'हरभरा', 'crop-kidneybeans':'राजमा', 'crop-pigeonpeas':'तूर', 'crop-mothbeans':'मटकी', 'crop-mungbean':'मूग', 'crop-blackgram':'उडीद', 'crop-lentil':'मसूर', 'crop-pomegranate':'डाळिंब', 'crop-banana':'केळी', 'crop-mango':'आंबा', 'crop-grapes':'द्राक्षे', 'crop-watermelon':'टरबूज', 'crop-muskmelon':'खरबूज', 'crop-apple':'सफरचंद', 'crop-orange':'संत्री', 'crop-papaya':'पपई', 'crop-coconut':'नारळ', 'crop-cotton':'कापूस', 'crop-jute':'ताग', 'crop-coffee':'कॉफी',
+    },
+    hi: {
+      'back-link':'← होमपेज पर वापस', 'page-h1':'🌾 सभी फसलों की जानकारी',
+      'page-p':'मिट्टी, मौसम, बुवाई, देखभाल और समस्या-समाधान — कोई भी फ़सल चुनकर देखें',
+      'crop-rice':'चावल', 'crop-maize':'मक्का', 'crop-chickpea':'चना', 'crop-kidneybeans':'राजमा', 'crop-pigeonpeas':'अरहर', 'crop-mothbeans':'मोठ', 'crop-mungbean':'मूंग', 'crop-blackgram':'उड़द', 'crop-lentil':'मसूर', 'crop-pomegranate':'अनार', 'crop-banana':'केला', 'crop-mango':'आम', 'crop-grapes':'अंगूर', 'crop-watermelon':'तरबूज', 'crop-muskmelon':'खरबूजा', 'crop-apple':'सेब', 'crop-orange':'संतरा', 'crop-papaya':'पपीता', 'crop-coconut':'नारियल', 'crop-cotton':'कपास', 'crop-jute':'जूट', 'crop-coffee':'कॉफी',
+    },
+    en: {
+      'back-link':'← Back to Home', 'page-h1':'🌾 All Crop Information',
+      'page-p':'Soil, climate, planting, care, and problem-solutions — pick any crop to see',
+      'crop-rice':'Rice', 'crop-maize':'Maize', 'crop-chickpea':'Chickpea', 'crop-kidneybeans':'Kidney Beans', 'crop-pigeonpeas':'Pigeon Pea', 'crop-mothbeans':'Moth Beans', 'crop-mungbean':'Mung Bean', 'crop-blackgram':'Black Gram', 'crop-lentil':'Lentil', 'crop-pomegranate':'Pomegranate', 'crop-banana':'Banana', 'crop-mango':'Mango', 'crop-grapes':'Grapes', 'crop-watermelon':'Watermelon', 'crop-muskmelon':'Muskmelon', 'crop-apple':'Apple', 'crop-orange':'Orange', 'crop-papaya':'Papaya', 'crop-coconut':'Coconut', 'crop-cotton':'Cotton', 'crop-jute':'Jute', 'crop-coffee':'Coffee',
+    },
+  };
+
+  function setLanguage(lang){
+    document.querySelectorAll('[data-i18n]').forEach(el=>{
+      const key = el.getAttribute('data-i18n');
+      if(translations[lang][key] !== undefined) el.textContent = translations[lang][key];
+    });
+    document.querySelectorAll('[data-lang-btn]').forEach(btn=>{
+      btn.classList.toggle('active', btn.getAttribute('data-lang-btn')===lang);
+    });
+    document.querySelectorAll('.crop-card').forEach(a=>{
+      const baseHref = a.getAttribute('href').split('?')[0];
+      a.setAttribute('href', baseHref + '?lang=' + lang);
+    });
+    document.getElementById('htmlRoot').setAttribute('lang', lang);
+    try{ localStorage.setItem('matiMitraLang', lang); }catch(e){}
+  }
+
+  let savedLang = 'mr';
+  try{ savedLang = localStorage.getItem('matiMitraLang') || 'mr'; }catch(e){}
+  setLanguage(savedLang);
+</script>
+
+</body>
+</html>

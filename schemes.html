@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="mr" id="htmlRoot">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>सरकारी योजना — Mati Mitra</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+  * { margin:0; padding:0; box-sizing:border-box; }
+  :root{
+    --soil:#2B2118; --gold:#D4972B; --gold-light:#F0C264;
+    --leaf:#4A7C59; --leaf-dark:#33573F; --paper:#F6F0E4; --paper-2:#EFE6D2;
+    --rust:#A8442B; --ink:#241B12;
+  }
+  body{ background:var(--paper); color:var(--ink); font-family:'Inter',sans-serif; }
+  h1,h2{ font-family:'Baloo 2',sans-serif; }
+
+  nav{ position:sticky; top:0; z-index:50; display:flex; align-items:center; justify-content:space-between; padding:14px 6vw; background:rgba(246,240,228,0.92); backdrop-filter:blur(10px); border-bottom:1px solid rgba(43,33,24,0.08); }
+  .brand{ display:flex; align-items:center; gap:10px; text-decoration:none; color:inherit; }
+  .brand-mark{ width:38px; height:38px; border-radius:10px; background:linear-gradient(145deg, var(--leaf), var(--leaf-dark)); display:flex; align-items:center; justify-content:center; font-family:'Baloo 2'; font-weight:800; color:var(--gold-light); font-size:18px; }
+  .brand-text b{ font-family:'Baloo 2'; font-size:17px; }
+  .back-link{ font-size:13.5px; font-weight:700; color:#5c4c3a; text-decoration:none; }
+  .lang-switch{ display:flex; gap:2px; background:var(--paper-2); border-radius:999px; padding:3px; }
+  .lang-switch button{ border:none; background:transparent; padding:6px 11px; border-radius:999px; font-size:12px; font-weight:700; cursor:pointer; color:#7a6b57; font-family:'Inter'; }
+  .lang-switch button.active{ background:var(--soil); color:var(--gold-light); }
+
+  .banner{ padding:50px 6vw 30px; text-align:center; background: radial-gradient(ellipse 700px 300px at 50% 0%, rgba(212,151,43,0.18), transparent), linear-gradient(180deg, var(--paper) 0%, var(--paper-2) 100%); }
+  .banner-tag{ display:inline-flex; align-items:center; gap:8px; background:rgba(74,124,89,0.12); color:var(--leaf-dark); padding:7px 15px; border-radius:999px; font-size:12px; font-weight:700; letter-spacing:0.8px; text-transform:uppercase; margin-bottom:16px; }
+  .banner h1{ font-size:clamp(26px,3.6vw,36px); color:var(--soil); margin-bottom:10px; }
+  .banner p{ color:#5c4c3a; font-size:14.5px; max-width:520px; margin:0 auto; }
+
+  .wrap{ max-width:820px; margin:0 auto; padding:40px 6vw 70px; display:flex; flex-direction:column; gap:26px; }
+  .scheme-card{ background:white; border-radius:22px; padding:32px; border:1px solid rgba(43,33,24,0.08); box-shadow:0 18px 40px rgba(43,33,24,0.06); scroll-margin-top:90px; }
+  .scheme-top{ display:flex; align-items:center; gap:14px; margin-bottom:14px; }
+  .scheme-icon{ width:52px; height:52px; border-radius:14px; background:var(--paper-2); display:flex; align-items:center; justify-content:center; font-size:24px; flex-shrink:0; }
+  .scheme-top h2{ font-size:21px; color:var(--soil); }
+  .scheme-top span{ display:block; font-size:12px; color:var(--rust); font-weight:700; margin-top:2px; }
+  .scheme-card p{ font-size:14.5px; line-height:1.7; color:#4a3e2e; margin-bottom:16px; }
+  .fact-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(150px,1fr)); gap:12px; margin-bottom:18px; }
+  .fact{ background:var(--paper-2); border-radius:12px; padding:12px 14px; }
+  .fact b{ display:block; font-size:11px; text-transform:uppercase; letter-spacing:0.4px; color:var(--leaf-dark); margin-bottom:3px; }
+  .fact span{ font-size:13.5px; font-weight:600; color:var(--ink); }
+  .scheme-links{ display:flex; gap:12px; flex-wrap:wrap; }
+  .scheme-links a{ background:var(--leaf); color:white; text-decoration:none; padding:10px 18px; border-radius:999px; font-size:13px; font-weight:700; }
+  .scheme-links a.secondary{ background:transparent; border:1.5px solid var(--soil); color:var(--soil); }
+
+  .note{ text-align:center; font-size:12.5px; color:#7a6b57; max-width:600px; margin:10px auto 0; line-height:1.7; }
+
+  .news-card{ background:var(--soil); border-radius:22px; padding:28px 30px; color:var(--paper); }
+  .news-card h2{ color:var(--gold-light); font-size:18px; margin-bottom:16px; }
+  .news-item{ display:block; padding:12px 0; border-bottom:1px solid rgba(246,240,228,0.1); color:var(--paper); text-decoration:none; font-size:14px; line-height:1.6; }
+  .news-item:last-child{ border-bottom:none; }
+  .news-item:hover{ color:var(--gold-light); }
+  .news-empty{ font-size:13px; color:rgba(246,240,228,0.55); }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="brand">
+    <div class="brand-mark">म</div>
+    <div class="brand-text"><b>Mati Mitra</b></div>
+  </a>
+  <div style="display:flex; align-items:center; gap:14px;">
+    <div class="lang-switch">
+      <button data-lang-btn="mr" onclick="setLanguage('mr')">मराठी</button>
+      <button data-lang-btn="hi" onclick="setLanguage('hi')">हिंदी</button>
+      <button data-lang-btn="en" onclick="setLanguage('en')">English</button>
+    </div>
+    <a href="/" class="back-link" data-i18n="back-link">← मुख्यपृष्ठावर परत</a>
+  </div>
+</nav>
+
+<div class="banner">
+  <div class="banner-tag" data-i18n="banner-tag">🏛️ सरकारी योजना</div>
+  <h1 data-i18n="banner-h1">शेतकऱ्यांसाठी उपयुक्त सरकारी योजना</h1>
+  <p data-i18n="banner-p">पीक शिफारसीसोबतच, तुमच्या आर्थिक मदतीसाठीही या दोन महत्त्वाच्या केंद्र सरकारच्या योजना उपयोगी पडू शकतात.</p>
+</div>
+
+<div class="wrap">
+
+  <div class="scheme-card">
+    <div class="scheme-top">
+      <div class="scheme-icon">💰</div>
+      <div>
+        <h2>PM-KISAN</h2>
+        <span data-i18n="pmkisan-sub">प्रधानमंत्री किसान सन्मान निधी</span>
+      </div>
+    </div>
+    <p data-i18n="pmkisan-desc">पात्र शेतकरी कुटुंबांना (शेतजमीन असणाऱ्या) दरवर्षी थेट आर्थिक मदत — बँक खात्यात थेट (DBT) जमा होते, कुठलाही मध्यस्थ नाही.</p>
+    <div class="fact-grid">
+      <div class="fact"><b data-i18n="pmkisan-f1-label">वार्षिक रक्कम</b><span>₹6,000</span></div>
+      <div class="fact"><b data-i18n="pmkisan-f2-label">हप्ते</b><span data-i18n="pmkisan-f2-val">₹2,000 x ३ वेळा</span></div>
+      <div class="fact"><b data-i18n="pmkisan-f3-label">पात्रता</b><span data-i18n="pmkisan-f3-val">शेतजमीनधारक कुटुंब</span></div>
+      <div class="fact"><b data-i18n="pmkisan-f4-label">पैसे कसे मिळतात</b><span data-i18n="pmkisan-f4-val">थेट बँक खात्यात (DBT)</span></div>
+    </div>
+    <div class="scheme-links">
+      <a href="https://pmkisan.gov.in" target="_blank" rel="noopener" data-i18n="official-site">अधिकृत वेबसाईट →</a>
+      <a href="tel:18001801551" class="secondary" data-i18n="call-help">📞 मदतीसाठी कॉल करा</a>
+    </div>
+  </div>
+
+  <div class="scheme-card">
+    <div class="scheme-top">
+      <div class="scheme-icon">🌧️</div>
+      <div>
+        <h2>PMFBY</h2>
+        <span data-i18n="pmfby-sub">प्रधानमंत्री पीक विमा योजना</span>
+      </div>
+    </div>
+    <p data-i18n="pmfby-desc">दुष्काळ, पूर, गारपीट, कीड-रोग यांमुळे पिकाचं नुकसान झाल्यास आर्थिक भरपाई देणारी विमा योजना. हप्ता (premium) खूप कमी असतो — बाकीचा भार केंद्र व राज्य सरकार उचलतं. 2020 पासून सर्व शेतकऱ्यांसाठी ऐच्छिक (voluntary) आहे.</p>
+    <div class="fact-grid">
+      <div class="fact"><b data-i18n="pmfby-f1-label">खरीप हप्ता</b><span data-i18n="pmfby-f1-val">फक्त 2%</span></div>
+      <div class="fact"><b data-i18n="pmfby-f2-label">रब्बी हप्ता</b><span data-i18n="pmfby-f2-val">फक्त 1.5%</span></div>
+      <div class="fact"><b data-i18n="pmfby-f3-label">बागायती/नगदी पिकं</b><span data-i18n="pmfby-f3-val">फक्त 5%</span></div>
+      <div class="fact"><b data-i18n="pmfby-f4-label">नुकसान कळवण्याची मुदत</b><span data-i18n="pmfby-f4-val">घटनेनंतर 72 तासांत</span></div>
+    </div>
+    <div class="scheme-links">
+      <a href="https://pmfby.gov.in" target="_blank" rel="noopener" data-i18n="official-site">अधिकृत वेबसाईट →</a>
+      <a href="tel:18002007710" class="secondary" data-i18n="pmfby-helpline">📞 PMFBY हेल्पलाईन</a>
+    </div>
+  </div>
+
+  <div class="scheme-card" id="kvk">
+    <div class="scheme-top">
+      <div class="scheme-icon">🔬</div>
+      <div>
+        <h2 data-i18n="kvk-title">कृषी विज्ञान केंद्र (KVK)</h2>
+        <span data-i18n="kvk-sub">मोफत माती परीक्षण व कृषी सल्ला</span>
+      </div>
+    </div>
+    <p data-i18n="kvk-desc">प्रत्येक जिल्ह्यात सरकारचं कृषी विज्ञान केंद्र (KVK) असतं — तिथे तुम्ही तुमच्या मातीचा नमुना नेऊन खरी, अचूक pH/N-P-K तपासणी मोफत/माफक दरात करून घेऊ शकता, आणि कृषी तज्ज्ञांचा प्रत्यक्ष सल्लाही घेऊ शकता.</p>
+    <p class="note" style="margin:0 0 16px; text-align:left;" data-i18n="kvk-note">पत्ते/फोन नंबर वेळोवेळी बदलू शकतात, म्हणून आम्ही इथे थेट यादी न देता सरकारच्या नेहमी-अद्ययावत अधिकृत पानाशी जोडतो.</p>
+    <div class="scheme-links">
+      <a href="https://icar.org.in/en/node/15040" target="_blank" rel="noopener" data-i18n="kvk-list-link">महाराष्ट्रातील सर्व KVK ची यादी (ICAR) →</a>
+      <a href="https://www.google.com/maps/search/Krishi+Vigyan+Kendra+near+me" target="_blank" rel="noopener" class="secondary" data-i18n="kvk-map-link">📍 जवळचं KVK नकाशावर शोधा</a>
+    </div>
+  </div>
+
+  <p class="note" data-i18n="footer-note">ही माहिती सर्वसाधारण मार्गदर्शनासाठी आहे. नेमकी पात्रता, कागदपत्रं आणि अर्जाची प्रक्रिया वेळोवेळी बदलू शकते — अंतिम व अचूक माहितीसाठी नेहमी वरच्या अधिकृत सरकारी वेबसाईटलाच भेट द्या किंवा नजीकच्या कृषी सेवा केंद्राशी संपर्क साधा.</p>
+
+</div>
+
+<script>
+  const translations = {
+    mr: {
+      'back-link':'← मुख्यपृष्ठावर परत', 'banner-tag':'🏛️ सरकारी योजना',
+      'banner-h1':'शेतकऱ्यांसाठी उपयुक्त सरकारी योजना',
+      'banner-p':'पीक शिफारसीसोबतच, तुमच्या आर्थिक मदतीसाठीही या दोन महत्त्वाच्या केंद्र सरकारच्या योजना उपयोगी पडू शकतात.',
+      'pmkisan-sub':'प्रधानमंत्री किसान सन्मान निधी',
+      'pmkisan-desc':'पात्र शेतकरी कुटुंबांना (शेतजमीन असणाऱ्या) दरवर्षी थेट आर्थिक मदत — बँक खात्यात थेट (DBT) जमा होते, कुठलाही मध्यस्थ नाही.',
+      'pmkisan-f1-label':'वार्षिक रक्कम', 'pmkisan-f2-label':'हप्ते', 'pmkisan-f2-val':'₹2,000 x ३ वेळा',
+      'pmkisan-f3-label':'पात्रता', 'pmkisan-f3-val':'शेतजमीनधारक कुटुंब',
+      'pmkisan-f4-label':'पैसे कसे मिळतात', 'pmkisan-f4-val':'थेट बँक खात्यात (DBT)',
+      'official-site':'अधिकृत वेबसाईट →', 'call-help':'📞 मदतीसाठी कॉल करा',
+      'pmfby-sub':'प्रधानमंत्री पीक विमा योजना',
+      'pmfby-desc':'दुष्काळ, पूर, गारपीट, कीड-रोग यांमुळे पिकाचं नुकसान झाल्यास आर्थिक भरपाई देणारी विमा योजना. हप्ता (premium) खूप कमी असतो — बाकीचा भार केंद्र व राज्य सरकार उचलतं. 2020 पासून सर्व शेतकऱ्यांसाठी ऐच्छिक (voluntary) आहे.',
+      'pmfby-f1-label':'खरीप हप्ता', 'pmfby-f1-val':'फक्त 2%', 'pmfby-f2-label':'रब्बी हप्ता', 'pmfby-f2-val':'फक्त 1.5%',
+      'pmfby-f3-label':'बागायती/नगदी पिकं', 'pmfby-f3-val':'फक्त 5%',
+      'pmfby-f4-label':'नुकसान कळवण्याची मुदत', 'pmfby-f4-val':'घटनेनंतर 72 तासांत',
+      'pmfby-helpline':'📞 PMFBY हेल्पलाईन',
+      'kvk-title':'कृषी विज्ञान केंद्र (KVK)', 'kvk-sub':'मोफत माती परीक्षण व कृषी सल्ला',
+      'kvk-desc':'प्रत्येक जिल्ह्यात सरकारचं कृषी विज्ञान केंद्र (KVK) असतं — तिथे तुम्ही तुमच्या मातीचा नमुना नेऊन खरी, अचूक pH/N-P-K तपासणी मोफत/माफक दरात करून घेऊ शकता, आणि कृषी तज्ज्ञांचा प्रत्यक्ष सल्लाही घेऊ शकता.',
+      'kvk-note':'पत्ते/फोन नंबर वेळोवेळी बदलू शकतात, म्हणून आम्ही इथे थेट यादी न देता सरकारच्या नेहमी-अद्ययावत अधिकृत पानाशी जोडतो.',
+      'kvk-list-link':'महाराष्ट्रातील सर्व KVK ची यादी (ICAR) →', 'kvk-map-link':'📍 जवळचं KVK नकाशावर शोधा',
+      'footer-note':'ही माहिती सर्वसाधारण मार्गदर्शनासाठी आहे. नेमकी पात्रता, कागदपत्रं आणि अर्जाची प्रक्रिया वेळोवेळी बदलू शकते — अंतिम व अचूक माहितीसाठी नेहमी वरच्या अधिकृत सरकारी वेबसाईटलाच भेट द्या किंवा नजीकच्या कृषी सेवा केंद्राशी संपर्क साधा.',
+    },
+    hi: {
+      'back-link':'← होमपेज पर वापस', 'banner-tag':'🏛️ सरकारी योजनाएं',
+      'banner-h1':'किसानों के लिए उपयोगी सरकारी योजनाएं',
+      'banner-p':'फ़सल सिफारिश के साथ-साथ, आपकी आर्थिक मदद के लिए भी ये दो महत्वपूर्ण केंद्र सरकार की योजनाएं उपयोगी हो सकती हैं.',
+      'pmkisan-sub':'प्रधानमंत्री किसान सम्मान निधि',
+      'pmkisan-desc':'पात्र किसान परिवारों (जिनके पास खेती की ज़मीन है) को हर साल सीधी आर्थिक मदद — बैंक खाते में सीधे (DBT) जमा होती है, कोई बिचौलिया नहीं.',
+      'pmkisan-f1-label':'वार्षिक राशि', 'pmkisan-f2-label':'किश्तें', 'pmkisan-f2-val':'₹2,000 x ३ बार',
+      'pmkisan-f3-label':'पात्रता', 'pmkisan-f3-val':'खेती की ज़मीन वाला परिवार',
+      'pmkisan-f4-label':'पैसे कैसे मिलते हैं', 'pmkisan-f4-val':'सीधे बैंक खाते में (DBT)',
+      'official-site':'आधिकारिक वेबसाइट →', 'call-help':'📞 मदद के लिए कॉल करें',
+      'pmfby-sub':'प्रधानमंत्री फसल बीमा योजना',
+      'pmfby-desc':'सूखा, बाढ़, ओलावृष्टि, कीट-रोग से फसल को नुकसान होने पर आर्थिक मुआवजा देने वाली बीमा योजना. प्रीमियम बहुत कम होता है — बाकी बोझ केंद्र और राज्य सरकार उठाती है. 2020 से सभी किसानों के लिए स्वैच्छिक (voluntary) है.',
+      'pmfby-f1-label':'खरीफ प्रीमियम', 'pmfby-f1-val':'सिर्फ 2%', 'pmfby-f2-label':'रबी प्रीमियम', 'pmfby-f2-val':'सिर्फ 1.5%',
+      'pmfby-f3-label':'बागवानी/नकदी फसलें', 'pmfby-f3-val':'सिर्फ 5%',
+      'pmfby-f4-label':'नुकसान बताने की समय-सीमा', 'pmfby-f4-val':'घटना के 72 घंटों में',
+      'pmfby-helpline':'📞 PMFBY हेल्पलाइन',
+      'kvk-title':'कृषि विज्ञान केंद्र (KVK)', 'kvk-sub':'मुफ़्त मिट्टी परीक्षण और कृषि सलाह',
+      'kvk-desc':'हर जिले में सरकार का कृषि विज्ञान केंद्र (KVK) होता है — वहां आप अपनी मिट्टी का नमूना ले जाकर सही, सटीक pH/N-P-K जांच मुफ़्त/मामूली दर में करवा सकते हैं, और कृषि विशेषज्ञों की प्रत्यक्ष सलाह भी ले सकते हैं.',
+      'kvk-note':'पते/फोन नंबर समय-समय पर बदल सकते हैं, इसलिए हम यहां सीधी सूची देने के बजाय सरकार के हमेशा-अद्यतन आधिकारिक पेज से जोड़ते हैं.',
+      'kvk-list-link':'महाराष्ट्र के सभी KVK की सूची (ICAR) →', 'kvk-map-link':'📍 नज़दीकी KVK नक्शे पर खोजें',
+      'footer-note':'यह जानकारी सामान्य मार्गदर्शन के लिए है. सटीक पात्रता, दस्तावेज़ और आवेदन प्रक्रिया समय-समय पर बदल सकती है — अंतिम और सटीक जानकारी के लिए हमेशा ऊपर दी गई आधिकारिक सरकारी वेबसाइट पर ही जाएं या नज़दीकी कृषि सेवा केंद्र से संपर्क करें.',
+    },
+    en: {
+      'back-link':'← Back to Home', 'banner-tag':'🏛️ Government Schemes',
+      'banner-h1':'Useful Government Schemes for Farmers',
+      'banner-p':'Alongside crop recommendations, these two major central government schemes can also help with your financial support.',
+      'pmkisan-sub':'PM Kisan Samman Nidhi',
+      'pmkisan-desc':'Direct annual financial support for eligible farmer families (who own farmland) — deposited straight into the bank account (DBT), no middleman.',
+      'pmkisan-f1-label':'Annual amount', 'pmkisan-f2-label':'Installments', 'pmkisan-f2-val':'₹2,000 x 3 times',
+      'pmkisan-f3-label':'Eligibility', 'pmkisan-f3-val':'Farmland-owning family',
+      'pmkisan-f4-label':'How you get paid', 'pmkisan-f4-val':'Direct to bank account (DBT)',
+      'official-site':'Official Website →', 'call-help':'📞 Call for Help',
+      'pmfby-sub':'PM Fasal Bima Yojana (Crop Insurance)',
+      'pmfby-desc':'An insurance scheme providing financial compensation for crop loss due to drought, flood, hail, or pest/disease. The premium is very low — the rest is covered by the central and state governments. Voluntary for all farmers since 2020.',
+      'pmfby-f1-label':'Kharif premium', 'pmfby-f1-val':'Only 2%', 'pmfby-f2-label':'Rabi premium', 'pmfby-f2-val':'Only 1.5%',
+      'pmfby-f3-label':'Horticultural/cash crops', 'pmfby-f3-val':'Only 5%',
+      'pmfby-f4-label':'Loss-reporting deadline', 'pmfby-f4-val':'Within 72 hours of the event',
+      'pmfby-helpline':'📞 PMFBY Helpline',
+      'kvk-title':'Krishi Vigyan Kendra (KVK)', 'kvk-sub':'Free Soil Testing & Farming Advice',
+      'kvk-desc':"Every district has a government Krishi Vigyan Kendra (KVK) — you can take a soil sample there for a real, accurate pH/N-P-K test for free or at minimal cost, and get direct advice from agriculture experts.",
+      'kvk-note':'Addresses/phone numbers can change over time, so instead of a static list here, we link to the government\'s always-current official page.',
+      'kvk-list-link':'List of all Maharashtra KVKs (ICAR) →', 'kvk-map-link':'📍 Find Nearest KVK on Map',
+      'footer-note':'This information is for general guidance. Exact eligibility, documents, and the application process can change over time — always visit the official government website above, or contact your nearest agriculture service center, for final and accurate information.',
+    },
+  };
+
+  function setLanguage(lang){
+    document.querySelectorAll('[data-i18n]').forEach(el=>{
+      const key = el.getAttribute('data-i18n');
+      if(translations[lang][key] !== undefined) el.textContent = translations[lang][key];
+    });
+    document.querySelectorAll('[data-lang-btn]').forEach(btn=>{
+      btn.classList.toggle('active', btn.getAttribute('data-lang-btn')===lang);
+    });
+    document.getElementById('htmlRoot').setAttribute('lang', lang);
+    try{ localStorage.setItem('matiMitraLang', lang); }catch(e){}
+  }
+
+  let savedLang = 'mr';
+  try{ savedLang = localStorage.getItem('matiMitraLang') || 'mr'; }catch(e){}
+  setLanguage(savedLang);
+</script>
+
+</body>
+</html>

@@ -1,4 +1,4 @@
-# 🌱 Mati Mitra (माती मित्र) — AI-Powered Crop Recommendation System
+# 🌱 Mati Mitra (माती मित्र) — Crop Recommendation System
 
 ![Python](https://img.shields.io/badge/Python-3.x-blue?logo=python)
 ![Flask](https://img.shields.io/badge/Flask-Backend-black?logo=flask)

@@ -1,260 +1,150 @@
-<div align="center">
+# 🌱 Mati Mitra (माती मित्र) — AI-Powered Crop Recommendation System
 
-# 🌾 Mati Mitra
-### Crop Recommendation System using Machine Learning
+![Python](https://img.shields.io/badge/Python-3.x-blue?logo=python)
+![Flask](https://img.shields.io/badge/Flask-Backend-black?logo=flask)
+![scikit-learn](https://img.shields.io/badge/scikit--learn-RandomForest-orange?logo=scikitlearn)
+![Status](https://img.shields.io/badge/Status-Complete-brightgreen)
+![License](https://img.shields.io/badge/M.Tech-Final%20Year%20Project-purple)
 
-**Hybrid ML + Domain-Rule engine that gives Maharashtra's farmers regionally accurate, honestly-uncertain, and genuinely accessible crop advice.**
-
-[![Python](https://img.shields.io/badge/Python-3.x-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
-[![Flask](https://img.shields.io/badge/Flask-Backend-000000?style=for-the-badge&logo=flask&logoColor=white)](https://flask.palletsprojects.com/)
-[![scikit-learn](https://img.shields.io/badge/scikit--learn-Random%20Forest-F7931E?style=for-the-badge&logo=scikitlearn&logoColor=white)](https://scikit-learn.org/)
-[![HTML5](https://img.shields.io/badge/HTML5-Frontend-E34F26?style=for-the-badge&logo=html5&logoColor=white)](#)
-[![PWA](https://img.shields.io/badge/PWA-Installable-5A0FC8?style=for-the-badge&logo=pwa&logoColor=white)](#)
-
-[![Accuracy](https://img.shields.io/badge/Model%20Accuracy-99.55%25-brightgreen?style=flat-square)](#-model-performance)
-[![Languages](https://img.shields.io/badge/Languages-Marathi%20%7C%20Hindi%20%7C%20English-orange?style=flat-square)](#-accessibility-first)
-[![Districts](https://img.shields.io/badge/Districts%20Covered-34%2F34-blue?style=flat-square)](#-key-features)
-[![Crops](https://img.shields.io/badge/Crops%20Supported-22-yellowgreen?style=flat-square)](#-full-crop-knowledge-base)
-
-</div>
+> **Mati Mitra** ("Friend of the Soil") is a multilingual, web-based crop recommendation system built for Maharashtra farmers — combining a trained Machine Learning model with hand-curated agronomic domain rules to give farmers advice that is not just statistically accurate, but **regionally and practically sound**.
 
 ---
 
-## 👋 About This Project
+## 🎯 The Problem
 
-Most crop-recommendation systems report **99%+ accuracy** — and still manage to suggest coffee for a semi-arid district like Solapur. Why? Because the datasets they're trained on have **zero awareness of geography.**
+Generic ML-based crop recommendation systems are trained on aggregated, region-agnostic datasets. This means a model can be statistically "confident" while recommending something agronomically absurd — like suggesting **coffee for Solapur**, a semi-arid district where coffee has never been grown. For a real farmer, that's not just a wrong answer — it's a costly one.
 
-**Mati Mitra fixes that.** It pairs a trained Random Forest classifier with a **hand-curated, data-derived rule layer** covering all 34 agricultural districts of Maharashtra — then wraps the result in a **trilingual, voice-first, low-literacy-friendly interface**, because a scientifically sound answer is useless if the farmer can't understand it.
+## 💡 The Solution
+
+Mati Mitra doesn't just trust the raw ML output. It layers a **Hybrid ML + Domain-Rule Scoring Engine** on top of a Random Forest classifier — restricting predictions to a district-level "genuinely-typical-crop" allowlist (covering all 34 agricultural districts of Maharashtra), then re-ranking candidates using:
 
 ```
-🎯 Aim         → Scientifically sound + regionally credible crop recommendations
-🧠 Approach    → Random Forest (ML) × Hand-curated agronomic rules (domain knowledge)
-🌍 Audience    → Marathi-speaking, low-literacy, first-time smartphone users
-📊 Validated   → 10 live test scenarios across 10 real Maharashtra districts
+hybrid_score = 0.4 × (ML probability) + 0.6 × (agronomic rule compatibility)
 ```
+
+The rule score itself blends **four real farming factors**: pH match, water/rainfall/irrigation adequacy, N-P-K compatibility (computed from real 10th–90th percentile statistics of the training data — not hand-estimated), and sowing-timing appropriateness.
 
 ---
 
 ## ✨ Key Features
 
-<table>
-<tr>
-<td width="50%" valign="top">
-
-### 🧠 Hybrid Intelligence
-- 🌳 Random Forest — **99.55%** cross-validated accuracy
-- ⚖️ `hybrid(c) = 0.4·ml + 0.6·rule` scoring
-- 🗺️ Regional filtering — all 34 districts
-- 🔀 Dual-track results — Traditional vs. Experimental
-- 🚦 Plain-language confidence labels
-- ⚠️ Input plausibility warnings
-
-</td>
-<td width="50%" valign="top">
-
-### 🌍 Built for Real Farmers
-- 🗣️ Trilingual — Marathi / Hindi / English
-- 🔊 Full-result audio narration
-- 👆 Icon-based Simple Mode (no numbers!)
-- 🎙️ Voice input (Web Speech API)
-- 📱 Installable PWA
-- ✅ Tested on real Android devices
-
-</td>
-</tr>
-<tr>
-<td width="50%" valign="top">
-
-### 🌦️ Complete Decision Support
-- ☁️ Live weather + 5-day forecast
-- 🧪 Crop-specific fertilizer advice
-- 🔄 Personalized crop-rotation tips
-- 🏛️ PM-KISAN & PMFBY scheme info
-- 🔬 KVK (free soil-testing) finder
-- 📞 Kisan Call Centre helpline
-
-</td>
-<td width="50%" valign="top">
-
-### 📚 Knowledge Base
-- 🌱 All 22 model-supported crops
-- 📖 Soil, climate, planting, harvest
-- 💧 Water & fertilizer management
-- 🐛 Common problems + solutions
-- ❓ Per-crop FAQs
-- ✅ Pros / cons at a glance
-
-</td>
-</tr>
-</table>
-
----
-
-## 🏗️ Architecture
-
-```
-        👨‍🌾 Farmer (Browser / Mobile)
-                    │
-                    ▼
-          🌐  Flask Backend API
-                    │
-                    ▼
-       🗺️  Regional Filter (34 districts)
-              │              │
-              ▼              ▼
-      🌳 ML Predictor   📏 Rule Scorer
-      (predict_proba)   (pH+water+NPK+timing)
-              │              │
-              └──────┬───────┘
-                     ▼
-         ⚖️  Hybrid Re-ranker
-       hybrid = 0.4·ml + 0.6·rule
-                     │
-      ┌──────────────┼──────────────┐
-      ▼              ▼              ▼
-  ☁️ Weather    🌐 Translator    🔊 gTTS
-  (5-day)       (mr/hi/en+)    (audio)
-      │              │              │
-      └──────────────┴──────────────┘
-                     ▼
-      📊 Result — Traditional vs. Experimental
-```
-
----
-
-## 🔬 Model Performance
-
-> Benchmarked on identical stratified 80/20 split + 5-fold CV — same data, same split, fair comparison.
-
-| Model | Train Acc | Test Acc | CV Mean | CV Std |
-|:---|:---:|:---:|:---:|:---:|
-| 🏆 **Random Forest** | 100.00% | **99.55%** | **99.55%** | 0.32% |
-| Decision Tree | 100.00% | 97.95% | 98.77% | 0.68% |
-| SVM (RBF) | 98.58% | 98.41% | 98.36% | 0.44% |
-| Naive Bayes | 99.49% | 99.55% | 99.45% | **0.18%** ⭐ |
-
-**Verdict:** Random Forest wins on generalization — Decision Tree's perfect train score + weakest test score is a textbook overfitting tell.
+| Category | Features |
+|---|---|
+| 🧠 **Intelligent Recommendation** | Hybrid ML + rule-based scoring · Regional filtering (34 districts) · "Traditional vs Experimental" crop split · Explainable confidence labels |
+| 🌦️ **Weather Integration** | Live weather (OpenWeatherMap) · 5-day forecast with sowing-timing awareness · Graceful API-failure fallback |
+| 🌾 **Farmer-Centric Advisory** | Crop-specific fertilizer analysis · Legume-aware crop rotation advice · Soil auto-fill for unknown soil tests · Input-plausibility validation |
+| 🗣️ **Accessibility First** | Trilingual UI (Marathi/Hindi/English) · Icon-based "Simple Mode" for low-literacy users · Voice input (Web Speech API) · Full-result audio narration (gTTS) |
+| 📱 **Real-World Usability** | PWA-ready (installable, offline-capable shell) · WhatsApp share · PDF export · Mobile-responsive with hamburger navigation · Nearest soil-testing center (KVK) finder |
+| 📊 **All 22 Crops, Fully Detailed** | Dedicated guide pages per crop — soil, climate, planting, care, pest/disease management, FAQs |
 
 ---
 
 ## 🛠️ Tech Stack
 
-<div align="center">
+**Backend:** Python 3 · Flask · scikit-learn (RandomForestClassifier) · joblib · NumPy · `deep_translator` · `gTTS`
 
-![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white)
-![Flask](https://img.shields.io/badge/Flask-000000?style=flat-square&logo=flask&logoColor=white)
-![scikit-learn](https://img.shields.io/badge/scikit--learn-F7931E?style=flat-square&logo=scikitlearn&logoColor=white)
-![NumPy](https://img.shields.io/badge/NumPy-013243?style=flat-square&logo=numpy&logoColor=white)
-![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)
-![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
-![OpenWeatherMap](https://img.shields.io/badge/OpenWeatherMap-EB6E4B?style=flat-square&logo=openweathermap&logoColor=white)
+**Frontend:** Hand-written HTML5/CSS3 (custom design system, no framework) · Vanilla JavaScript · Web Speech API
 
-</div>
+**External APIs:** OpenWeatherMap (current + forecast) · Google Translate · Google Text-to-Speech
 
-| Layer | Tools Used |
-|---|---|
-| 🧠 ML | scikit-learn (Random Forest), joblib, NumPy |
-| ⚙️ Backend | Python 3, Flask |
-| ☁️ Weather | OpenWeatherMap API |
-| 🌐 Translation | deep_translator + hand-verified mr/hi/en dictionaries |
-| 🔊 Voice | gTTS (text-to-speech), Web Speech API (input) |
-| 🎨 Frontend | Hand-written HTML5, CSS3, vanilla JS — no framework |
-| 📱 PWA | Web App Manifest + Service Worker |
+**Architecture:** Server-rendered (Flask + Jinja2) — a single, auditable server-side pipeline: input validation → live weather retrieval → hybrid scoring engine → fertilizer/rotation advice → multilingual localization → audio generation → result rendering
 
 ---
 
-## 📂 Project Structure
+## 📈 Model Performance (Real, Measured Results)
+
+Trained and validated on the standard 22-crop, 7-feature dataset (N, P, K, Temperature, Humidity, pH, Rainfall) using an 80/20 stratified split + 5-fold cross-validation:
+
+| Algorithm | CV Accuracy | Notes |
+|---|---|---|
+| **Random Forest** ✅ | **99.55% ± 0.32%** | Best overall — selected as production model |
+| Naive Bayes | 99.45% ± 0.18% | Most stable across folds |
+| SVM (RBF) | 98.36% ± 0.44% | Feature-scaled |
+| Decision Tree | 97.95% (test) | 100% train accuracy — classic overfitting, highest CV variance |
+
+---
+
+## 📸 Screenshots
+
+### 🏠 Home Page
+![Home Page](./home%20page(a).png)
+![Home Page](./home%20page%20(b).png)
+![Home Page](./home%20page%20(c).png)
+![Home Page](./home%20page%20(d).png)
+![Home Page](./home%20page%20(e).png)
+
+### 🌾 Crop Details
+![Crop Details](./crop%20details.png)
+![Crop Info Page](./crop%20info%20page.png)
+
+### 🔮 Prediction
+![Predict Page](./predict%20page(a).png)
+![Predict Page](./predict%20page(b).png)
+
+### 📊 Result
+![Result](./result%20(a).png)
+![Result](./result(b).png)
+
+### 📋 Schemes
+![Schemes Page](./schemes%20page.png)
+
+---
+
+## 🏗️ Project Architecture
 
 ```
-Mati-Mitra/
-├── 🐍 app.py                     Flask routes, hybrid scoring, all advisory logic
-├── 🤖 crop_model.pkl             Trained Random Forest model
-├── 📊 Crop_recommendation.csv    Training dataset (2,200 rows, 22 classes)
-├── 📁 templates/
-│   ├── index.html                Landing page
-│   ├── predict.html              Prediction form (Detailed + Simple Mode)
-│   ├── result.html                Dual-track result page
-│   ├── crops_list.html            Directory of all 22 crops
-│   ├── crop_detail.html           Per-crop cultivation guide
-│   └── schemes.html               Govt schemes + KVK finder
-└── 📁 static/
-    ├── audio_output.mp3          Generated result narration
-    ├── manifest.json              PWA manifest
-    ├── service-worker.js          PWA service worker
-    └── icons/                     PWA icons
+Crop Recommendation/
+├── app.py                    # Flask app (~1680 lines) — routes, ML pipeline,
+│                                hybrid scoring, translation, crop knowledge base
+├── crop_model.pkl            # Trained RandomForestClassifier (joblib)
+├── Crop_recommendation.csv   # Training dataset (2200 rows)
+├── templates/
+│   ├── index.html            # Home page (trilingual, mobile nav, KVK teaser)
+│   ├── predict.html          # Prediction form (Detailed/Simple-Icon toggle, voice input)
+│   ├── result.html           # Result page (donut chart, forecast, fully trilingual)
+│   ├── crops_list.html       # All-22-crops directory
+│   ├── crop_detail.html      # Per-crop detailed guide (server-side translation)
+│   └── schemes.html          # PM-KISAN, PMFBY & KVK soil-testing finder
+└── static/
+    ├── manifest.json         # PWA manifest
+    ├── service-worker.js     # PWA service worker
+    └── icons/
 ```
 
 ---
 
-## 🚀 Getting Started
+## 🧭 Development Journey (Highlights)
 
-### 1️⃣ Clone & Install
-```bash
-git clone https://github.com/<your-username>/mati-mitra-crop-recommendation.git
-cd mati-mitra-crop-recommendation
-pip install flask joblib numpy requests deep_translator gTTS
-```
+This project evolved through **15 documented development phases** — a genuinely iterative, problem-discovery-driven engineering process:
 
-### 2️⃣ Set Your API Key
-> 🔐 Never hardcoded — read from an environment variable
+- **Regional accuracy fix** — caught and corrected geographically-blind recommendations
+- **Real translation bug found & fixed** — `GoogleTranslator` mistranslated "pigeonpeas" as 🐦 "pigeon" in Marathi; fixed with hand-verified dictionaries
+- **Coverage gap discovered** — only 14 of 36 districts had regional data; expanded to all 34 agricultural districts
+- **An honest reckoning** — explicitly addressed whether "99.3% accuracy" means real-world reliability (it doesn't, and the README says so)
+- **Full multilingual completion** — found and fixed silent, inconsistent partial-translation failures via live phone testing
+- **Mobile navigation bug** — discovered the entire nav menu was invisible below 820px width on the home page; fixed with a hamburger menu
 
-```bash
-# Windows
-set OPENWEATHER_API_KEY=your_api_key_here
-
-# macOS / Linux
-export OPENWEATHER_API_KEY=your_api_key_here
-```
-
-### 3️⃣ Run
-```bash
-python app.py
-```
-Open **http://127.0.0.1:5000** 🎉
-
-> 💡 No API key set? No problem — the app degrades gracefully. Weather shows a clear fallback message; crop, fertilizer, and rotation advice all still work perfectly.
+*(Full 15-phase development log available in the project's technical documentation.)*
 
 ---
 
-## 🧪 Testing
+## ⚠️ Honest Limitations
 
-✅ **10 live, end-to-end scenarios** across **10 real Maharashtra districts** — each targeting a distinct part of the system:
+This project deliberately documents its own limitations rather than overselling accuracy:
 
-| District | Tested |
-|---|---|
-| Solapur, Ratnagiri, Kolhapur | Regional diversity |
-| Nashik, Palghar | Honest low-confidence labelling |
-| Pune | Waterlogging → rice rule |
-| Jalgaon, Latur | In-season vs. out-of-season timing |
-| Bhandara | Deliberately implausible input → plausibility warning |
+- The 99.55% figure reflects fit to a **generic, non-region-specific dataset** — not verified real-world cultivation success
+- A 7-feature classifier cannot capture soil texture, pest history, market factors, or execution quality
+- The underlying dataset's 22-crop vocabulary structurally excludes several of Maharashtra's genuinely major crops (e.g., jowar, bajra, sugarcane)
+- No feedback loop currently exists to learn whether a recommendation actually worked in the field
 
-Manual, scenario-based, screenshot-driven testing — no automated suite yet (documented as an open limitation, not hidden).
+## 🔮 Future Work
 
----
-
-## ⚠️ Known Limitations
-
-- 🚧 22-crop dataset vocabulary ceiling — jowar, bajra, sugarcane, soybean, onion, cashew are structurally out of reach
-- 🚧 0.4/0.6 hybrid weights are reasoned-by-design, not grid-searched
-- 🚧 No real-world field-outcome validation yet
-- 🚧 `debug=True` — disable before any production deployment
-
-## 🗺️ Roadmap
-
-- [ ] Maharashtra-specific soil-testing dataset for retraining
-- [ ] Crowd-sourced district-crop data from farmer feedback
-- [ ] Empirical tuning of hybrid weights
-- [ ] Farmer feedback loop (success/failure tracking)
-- [ ] Leaf-photo pest & disease detection (CNN)
-- [ ] Yield prediction + Agmarknet price integration
-- [ ] Score explainability breakdown
+- Hybrid-score explainability breakdown (show pH/water/NPK/timing contribution per recommendation)
+- Side-by-side crop comparison tool
+- A genuinely region-specific training dataset (Maharashtra-only) to remove the current dataset's structural ceiling
 
 ---
 
+## 🎓 Academic Context
 
-<div align="center">
-
-### 🌱 Built to give every farmer a scientifically sound, understandable answer.
-
-</div>
+M.Tech Final Year Project — includes a full technical master document and a properly-cited research paper draft (Abstract, Literature Review with 8 cited works, Methodology, Real Results, Limitations, Future Work).
